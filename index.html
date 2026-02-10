@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Селезнев Евгений | Дисциплина в жизни</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Подключаем иконки -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Аватар и заголовок -->
+        <header class="header">
+            <img src="avatar.jpg" alt="Селезнев Евгений Владимирович" class="avatar" id="avatar">
+            <h1 class="name">Селезнев Евгений Владимирович</h1>
+            <p class="tagline">Практика фитнеса, DCA-стратегии в Bitcoin, осознанное родительство</p>
+        </header>
+
+        <!-- Основные кнопки-ссылки -->
+        <main class="links">
+            <!-- Блок 1: Главные проекты -->
+            <section class="link-section">
+                <h2 class="section-title"><i class="fas fa-rocket"></i> Главные проекты</h2>
+                <a href="http://t.me/seleznev_ev" target="_blank" class="link-btn">
+                    <i class="fab fa-telegram"></i> Мой контакт (Telegram)
+                    <span class="link-desc">Размышления в кружочках</span>
+                </a>
+                <a href="https://t.me/+GCv9bsWFYLhkMWFi" target="_blank" class="link-btn">
+                    <i class="fas fa-chart-line"></i> Человек-мост
+                    <span class="link-desc">Мой канал о крипто проекте</span>
+                </a>
+                <a href="https://t.me/moi_istorii27" target="_blank" class="link-btn">
+                    <i class="fas fa-heart"></i> Мои истории с детьми
+                    <span class="link-desc">Эмоции и жизнь вне работы</span>
+                </a>
+            </section>
+
+            <!-- Блок 2: Видеоконтент -->
+            <section class="link-section">
+                <h2 class="section-title"><i class="fas fa-play-circle"></i> Видеоконтент</h2>
+                <a href="#" target="_blank" class="link-btn coming-soon">
+                    <i class="fab fa-youtube"></i> Мой YouTube-канал
+                    <span class="link-desc">Скоро здесь будут тренировки и обзоры</span>
+                    <span class="badge">СКОРО</span>
+                </a>
+            </section>
+
+            <!-- Блок 3: Сотрудничество -->
+            <section class="link-section">
+                <h2 class="section-title"><i class="fas fa-handshake"></i> Сотрудничество</h2>
+                <a href="mailto:vladivostok.seleznev@gmail.com?subject=Предложение о сотрудничестве" class="link-btn">
+                    <i class="fas fa-envelope"></i> Для рекламодателей и коллабов
+                    <span class="link-desc">Обсудим ваше предложение</span>
+                </a>
+            </section>
+        </main>
+
+        <!-- Подвал -->
+        <footer class="footer">
+            <p>© Селезнев Евгений, 2023. Все проекты — это часть моего пути.</p>
+            <p class="hint">Страница обновляется. Чтобы изменить ссылки, отредактируйте файл <code>index.html</code></p>
+        </footer>
+    </div>
+
+    <!-- Простой скрипт для смены аватара -->
+    <script>
+        document.getElementById('avatar').addEventListener('click', function() {
+            const newAvatarUrl = prompt('Введите URL вашего нового аватара (ссылка на картинку):', this.src);
+            if (newAvatarUrl && newAvatarUrl.startsWith('http')) {
+                this.src = newAvatarUrl;
+                alert('Аватар обновлен! Обновите страницу (F5).');
+            }
+        });
+    </script>
+</body>
+</html>
