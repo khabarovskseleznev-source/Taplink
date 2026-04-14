@@ -5,16 +5,17 @@
 
   var TELEGRAM = 'https://t.me/seleznev_ev';
   var WHATSAPP = 'https://wa.me/79141802211';
-  var MAX      = 'https://vk.me/+79141802211';
+  var MAX      = 'https://vk.me/id711488491';
 
   /* ── Стили ─────────────────────────────────────────────────────── */
   var css = `
     .ev-wrap { position: relative; display: inline-block; }
 
-    /* Dropdown */
+    /* Dropdown — вылетает вправо от кнопки */
     .ev-drop {
       position: absolute;
-      left: 50%;
+      left: calc(100% + 16px);
+      top: 50%;
       min-width: 240px;
       background: rgba(4,4,4,0.97);
       backdrop-filter: blur(24px);
@@ -24,23 +25,34 @@
       padding: 6px;
       opacity: 0;
       pointer-events: none;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.9), 0 0 30px rgba(0,255,255,0.08);
+      box-shadow: 20px 0 60px rgba(0,0,0,0.9), 0 0 30px rgba(0,255,255,0.08);
       z-index: 9999;
+      transform: translateY(-50%) scaleX(0.88);
+      transform-origin: left center;
       transition: opacity 0.22s ease, transform 0.22s ease;
     }
-    .ev-drop.ev-up {
-      bottom: calc(100% + 14px);
-      transform: translateX(-50%) scaleY(0.9);
-      transform-origin: bottom center;
+    /* Стрелка-указатель слева от dropdown */
+    .ev-drop::before {
+      content: '';
+      position: absolute;
+      right: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 6px solid transparent;
+      border-right-color: rgba(0,255,255,0.18);
     }
-    .ev-drop.ev-down {
-      top: calc(100% + 14px);
-      transform: translateX(-50%) scaleY(0.9);
-      transform-origin: top center;
+    .ev-drop::after {
+      content: '';
+      position: absolute;
+      right: calc(100% - 1px);
+      top: 50%;
+      transform: translateY(-50%);
+      border: 6px solid transparent;
+      border-right-color: rgba(4,4,4,0.97);
     }
     .ev-drop.ev-open {
       opacity: 1;
-      transform: translateX(-50%) scaleY(1);
+      transform: translateY(-50%) scaleX(1);
       pointer-events: auto;
     }
     .ev-drop-head {
@@ -146,7 +158,7 @@
     wrap.appendChild(btn);
 
     var drop = document.createElement('div');
-    drop.className = 'ev-drop ev-up';
+    drop.className = 'ev-drop';
     wrap.appendChild(drop);
 
     var head = document.createElement('div');
@@ -173,10 +185,6 @@
 
     btn.addEventListener('click', function (e) {
       e.preventDefault();
-      // Направление: если кнопка в нижней половине экрана → вверх
-      var rect = wrap.getBoundingClientRect();
-      var goUp = rect.top > window.innerHeight * 0.45;
-      drop.className = 'ev-drop ' + (goUp ? 'ev-up' : 'ev-down');
       drop.classList.toggle('ev-open');
     });
 
