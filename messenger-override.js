@@ -261,7 +261,27 @@
     });
   }
 
-  /* ── 4. Убрать три кружка (Max/Telegram/Instagram) в #collab ───── */
+  /* ── 4. Исправить «Смотреть проекты» — плавный скролл к #projects ─ */
+  function patchProjectsButton() {
+    document.querySelectorAll('a.neon-btn[href="#projects"]').forEach(function (btn) {
+      btn.removeAttribute('target');
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        var target = document.getElementById('projects');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  }
+
+  /* ── 5. «Написать мне» в шапке → dropdown мессенджеров ─────────── */
+  function patchWriteMeButton() {
+    document.querySelectorAll('a.neon-btn[href="#collab"]').forEach(function (btn) {
+      btn.removeAttribute('href');
+      attachDropdown(btn);
+    });
+  }
+
+  /* ── 6. Убрать три кружка (Max/Telegram/Instagram) в #collab ───── */
   function patchRemoveCircles() {
     var collab = document.getElementById('collab');
     if (!collab) return;
@@ -279,6 +299,8 @@
     patchNavItem();
     patchEmailCircle();
     patchRemoveCircles();
+    patchProjectsButton();
+    patchWriteMeButton();
   }
 
   function waitForReact() {
