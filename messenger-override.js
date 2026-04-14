@@ -261,11 +261,24 @@
     });
   }
 
+  /* ── 4. Убрать три кружка (Max/Telegram/Instagram) в #collab ───── */
+  function patchRemoveCircles() {
+    var collab = document.getElementById('collab');
+    if (!collab) return;
+    // Ищем по уникальному instagram-линку внутри collab
+    var instLink = collab.querySelector('a[href*="instagram.com"]');
+    if (!instLink) return;
+    // Родитель — flex-контейнер со всеми тремя кружками
+    var container = instLink.parentNode;
+    if (container) container.style.display = 'none';
+  }
+
   /* ── Запуск после рендера React ─────────────────────────────────── */
   function patch() {
     patchCollabButton();
     patchNavItem();
     patchEmailCircle();
+    patchRemoveCircles();
   }
 
   function waitForReact() {
