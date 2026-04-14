@@ -9,13 +9,9 @@
 
   /* ── Стили ─────────────────────────────────────────────────────── */
   var css = `
-    .ev-wrap { position: relative; display: inline-block; }
-
-    /* Dropdown — вылетает вправо от кнопки */
+    /* Dropdown — position:fixed, вылетает вправо от кнопки */
     .ev-drop {
-      position: absolute;
-      left: calc(100% + 16px);
-      top: 50%;
+      position: fixed;
       min-width: 240px;
       background: rgba(4,4,4,0.97);
       backdrop-filter: blur(24px);
@@ -26,7 +22,7 @@
       opacity: 0;
       pointer-events: none;
       box-shadow: 20px 0 60px rgba(0,0,0,0.9), 0 0 30px rgba(0,255,255,0.08);
-      z-index: 9999;
+      z-index: 99999;
       transform: translateY(-50%) scaleX(0.88);
       transform-origin: left center;
       transition: opacity 0.22s ease, transform 0.22s ease;
@@ -150,16 +146,13 @@
 
   /* ── Создать и прикрепить dropdown к кнопке ────────────────────── */
   function attachDropdown(btn) {
-    if (btn.closest('.ev-wrap')) return; // уже обработано
+    if (btn.dataset.evDone) return; // уже обработано
+    btn.dataset.evDone = '1';
 
-    var wrap = document.createElement('div');
-    wrap.className = 'ev-wrap';
-    btn.parentNode.insertBefore(wrap, btn);
-    wrap.appendChild(btn);
-
+    /* Dropdown кладём прямо в body — обходим overflow:hidden родителей */
     var drop = document.createElement('div');
     drop.className = 'ev-drop';
-    wrap.appendChild(drop);
+    document.body.appendChild(drop);
 
     var head = document.createElement('div');
     head.className = 'ev-drop-head';
@@ -183,14 +176,37 @@
       drop.appendChild(a);
     });
 
+    var closeTimer;
+
+    function openDrop() {
+      var rect = btn.getBoundingClientRect();
+      drop.style.left = (rect.right + 16) + 'px';
+      drop.style.top  = (rect.top + rect.height / 2) + 'px';
+      drop.classList.add('ev-open');
+    }
+    function closeDrop() { drop.classList.remove('ev-open'); }
+    function startClose() { closeTimer = setTimeout(closeDrop, 180); }
+    function cancelClose() { clearTimeout(closeTimer); }
+
+    /* Открытие по клику */
     btn.addEventListener('click', function (e) {
       e.preventDefault();
-      drop.classList.toggle('ev-open');
+      drop.classList.contains('ev-open') ? closeDrop() : openDrop();
     });
 
+    /* Закрытие при уходе мышки с кнопки или с самого dropdown */
+    btn.addEventListener('mouseleave', startClose);
+    btn.addEventListener('mouseenter', cancelClose);
+    drop.addEventListener('mouseenter', cancelClose);
+    drop.addEventListener('mouseleave', startClose);
+
+    /* Закрытие при клике вне */
     document.addEventListener('click', function (e) {
-      if (!wrap.contains(e.target)) drop.classList.remove('ev-open');
+      if (!btn.contains(e.target) && !drop.contains(e.target)) closeDrop();
     });
+
+    /* Закрытие при скролле страницы */
+    window.addEventListener('scroll', closeDrop, true);
   }
 
   /* ── 1. Большая кнопка «neon-btn» с mailto ──────────────────────── */
